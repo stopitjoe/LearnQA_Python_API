@@ -5,7 +5,7 @@ meth = "get"
 
 print(f'{requests.get(url).status_code} - {requests.get(url).text} - for GET method without params')
 print(f'{requests.head(url).status_code} - {requests.head(url, data={"method": "HEAD"}).text} for GET method with params HEAD')
-print(f'{requests.post(url).status_code} - {requests.post(url, data={"method": "HEAD"}).text}- for POST method with params HEAD')
+print(f'{requests.post(url).status_code} - {requests.post(url, data={"method": "POST"}).text}- for POST method with params POST')
 print("---------------------------GET---------------------------")
 
 while meth == "get":
