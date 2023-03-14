@@ -1,5 +1,4 @@
 import json.decoder
-
 from requests import Response
 
 class BaseCase:
@@ -16,7 +15,5 @@ class BaseCase:
             response_as_dict = response.json()
         except json.decoder.JSONDecodeError:
             assert False, f"Response is not in JSON format. Response text - '{response.text}'"
-
         assert name in response_as_dict, f"Cant find in JSON a key '{name}'"
-
         return response_as_dict[name]
