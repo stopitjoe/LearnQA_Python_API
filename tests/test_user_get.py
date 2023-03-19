@@ -19,7 +19,7 @@ class TestUserGet(BaseCase):
 
         response1 = MyRequests.post('/user/login', data=data)
 
-        auth_sid = self.get_cooke(response1, 'auth_sid')
+        auth_sid = self.get_cookie(response1, 'auth_sid')
         token = self.get_header(response1, 'x-csrf-token')
         user_id_from_auth = self.get_json_value(response1, 'user_id')
 

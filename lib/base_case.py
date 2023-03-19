@@ -3,7 +3,7 @@ from requests import Response
 from datetime import datetime
 
 class BaseCase:
-    def get_cooke(self, response: Response, cookie_name):
+    def get_cookie(self, response: Response, cookie_name):
         assert cookie_name in response.cookies, f'Cant find cookie "{cookie_name}" in response'
         return response.cookies[cookie_name]
 
@@ -18,6 +18,7 @@ class BaseCase:
             assert False, f"Response is not in JSON format. Response text - '{response.text}'"
         assert name in response_as_dict, f"Cant find in JSON a key '{name}'"
         return response_as_dict[name]
+
     def prepare_registration_data(self, email=None):
         if email is None:
             base_part = 'learnqa'
