@@ -21,4 +21,3 @@ class TestUserRegister(BaseCase):
         Assertions.assert_status_code(response, 400)
         assert response.content.decode('utf-8') == f"Users with email '{email}' already exists", \
             f"Content is not correct - {response.content}"
-        print(response.content)
