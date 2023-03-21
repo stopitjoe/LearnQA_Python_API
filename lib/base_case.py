@@ -19,16 +19,20 @@ class BaseCase:
         assert name in response_as_dict, f"Cant find in JSON a key '{name}'"
         return response_as_dict[name]
 
-    def prepare_registration_data(self, email=None):
-        if email is None:
+    def prepare_registration_data(self, email=None, user_name=None):
+        if not email:
             base_part = 'learnqa'
             domain = 'example.com'
             random_part = datetime.now().strftime('%m%d%Y%H%M%S')
             email = f"{base_part}{random_part}@{domain}"
+        if not user_name:
+            user_name = 'learnqa'
         return {
             'password': '123',
-            'username': 'learnqa',
-            'firstName': 'learqa',
+            'username': user_name,
+            'firstName': 'learnqa',
             'lastName': 'learnqa',
             'email': email
         }
+
+

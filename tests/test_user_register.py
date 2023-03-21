@@ -17,7 +17,7 @@ class TestUserRegister(BaseCase):
     ]
 
     @allure.description("Create user success")
-    def test_create_user_success(self): #------------------------------------------- Успешное создание пользователя.
+    def test_create_user_success(self):
         data = self.prepare_registration_data()
 
         response = MyRequests.post("/user/", data=data)
@@ -26,9 +26,9 @@ class TestUserRegister(BaseCase):
         Assertions.assert_json_has_key(response, 'id')
 
     @allure.description("Create user with existing email")
-    def test_create_user_with_existing_email(self): #-------------------------------- Не успешное создание пользователя с существующим email
+    def test_create_user_with_existing_email(self):
         email = 'vinkotov@example.com'
-        data = self.prepare_registration_data(email)
+        data = self.prepare_registration_data(email=email)
 
         response = MyRequests.post("/user/", data=data)
 
@@ -36,8 +36,30 @@ class TestUserRegister(BaseCase):
         assert response.content.decode('utf-8') == f"Users with email '{email}' already exists", \
             f"Content is not correct - {response.content}"
 
+    @allure.description("Create user with short name")
+    def test_create_user_with_short_name(self):
+        user_name = 'f'
+        data = self.prepare_registration_data(user_name=user_name)
+
+        response = MyRequests.post("/user/", data=data)
+
+        Assertions.assert_status_code(response, 400)
+        assert response.content.decode('utf-8') == f"The value of 'username' field is too short", \
+            f"Content is not correct - {response.content}"
+
+    @allure.description("Create user with long name")
+    def test_create_user_with_long_name(self):
+        user_name = 'f' * 251
+        data = self.prepare_registration_data(user_name=user_name)
+
+        response = MyRequests.post("/user/", data=data)
+
+        Assertions.assert_status_code(response, 400)
+        assert response.content.decode('utf-8') == f"The value of 'username' field is too long", \
+            f"Content is not correct - {response.content}"
+
     @allure.description("Create user with incorrect email - missing '@'")
-    def test_create_user_incorrect_email(self):#----------------------------------- Не успешное создание пользователя с некорректным email
+    def test_create_user_incorrect_email(self):
         email = 'vinkotovexample.com'
         data = self.prepare_registration_data(email)
 
@@ -49,7 +71,7 @@ class TestUserRegister(BaseCase):
 
     @allure.description("Create user without some parameter")
     @pytest.mark.parametrize('condition', exclude_params)
-    def test_create_user_without_param(self, condition): #-------------------------- Не успешное создание пользователя с отсутствием одного параметра
+    def test_create_user_without_param(self, condition):
         if condition == 'password':
             data = self.prepare_registration_data()
             del data[condition]
