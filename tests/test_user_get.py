@@ -7,6 +7,8 @@ from lib.assertions import Assertions
 
 @allure.epic("User get cases")
 class TestUserGet(BaseCase):
+
+    @allure.severity(allure.severity_level.NORMAL)
     @allure.description("User get - not authorized")
     def test_user_get_not_auth(self):
         response = MyRequests.get('/user/2')
@@ -15,6 +17,7 @@ class TestUserGet(BaseCase):
         Assertions.assert_json_has_key(response, 'username')
         Assertions.assert_json_has_not_keys(response, unexpected_keys)
 
+    @allure.severity(allure.severity_level.NORMAL)
     @allure.description("User get - authorized the same user")
     def test_user_get_auth_same_user(self):
         data = {
@@ -35,6 +38,7 @@ class TestUserGet(BaseCase):
         expected_keys = ["username", "email", "firstName", "lastName"]
         Assertions.assert_json_has_keys(response2, expected_keys)
 
+    @allure.severity(allure.severity_level.NORMAL)
     @allure.description("User get - authorized another user")
     def test_user_get_auth_another_user(self):
         data = {

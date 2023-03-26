@@ -16,6 +16,7 @@ class TestUserRegister(BaseCase):
         ('email')
     ]
 
+    @allure.severity(allure.severity_level.NORMAL)
     @allure.description("Create user success")
     def test_create_user_success(self):
         data = self.prepare_registration_data()
@@ -25,6 +26,7 @@ class TestUserRegister(BaseCase):
         Assertions.assert_status_code(response, 200)
         Assertions.assert_json_has_key(response, 'id')
 
+    @allure.severity(allure.severity_level.NORMAL)
     @allure.description("Create user with existing email")
     def test_create_user_with_existing_email(self):
         email = 'vinkotov@example.com'
@@ -36,6 +38,7 @@ class TestUserRegister(BaseCase):
         assert response.content.decode('utf-8') == f"Users with email '{email}' already exists", \
             f"Content is not correct - {response.content}"
 
+    @allure.severity(allure.severity_level.NORMAL)
     @allure.description("Create user with short name")
     def test_create_user_with_short_name(self):
         user_name = 'f'
@@ -47,6 +50,7 @@ class TestUserRegister(BaseCase):
         assert response.content.decode('utf-8') == f"The value of 'username' field is too short", \
             f"Content is not correct - {response.content}"
 
+    @allure.severity(allure.severity_level.NORMAL)
     @allure.description("Create user with long name")
     def test_create_user_with_long_name(self):
         user_name = 'f' * 251
@@ -58,6 +62,7 @@ class TestUserRegister(BaseCase):
         assert response.content.decode('utf-8') == f"The value of 'username' field is too long", \
             f"Content is not correct - {response.content}"
 
+    @allure.severity(allure.severity_level.NORMAL)
     @allure.description("Create user with incorrect email - missing '@'")
     def test_create_user_incorrect_email(self):
         email = 'vinkotovexample.com'
@@ -69,6 +74,7 @@ class TestUserRegister(BaseCase):
         assert response.content.decode('utf-8') == f"Invalid email format", \
             f"Content is not correct - {response.content}"
 
+    @allure.severity(allure.severity_level.NORMAL)
     @allure.description("Create user without some parameter")
     @pytest.mark.parametrize('condition', exclude_params)
     def test_create_user_without_param(self, condition):
